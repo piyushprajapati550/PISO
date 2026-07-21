@@ -1,0 +1,28 @@
+`timescale 1ns / 1ps
+
+module PISO_tb;
+reg clk , rst , load ;
+reg [3:0]Pin;
+wire Sout;
+
+
+// mapping
+PISO uut( Sout , clk , Pin, rst, load );
+initial
+begin
+{clk ,load,rst,Pin}=0;
+end
+always #5 clk = ~ clk;
+initial
+begin
+rst=1;
+
+#10 rst=0;
+// parallel load
+#10 load=1'b1; Pin = 4'b0101;
+#20 load =1'b0;
+/// shift for 4 clock cycles
+
+#100 $finish;
+end
+endmodule
